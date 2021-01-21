@@ -103,7 +103,8 @@ function fcfsHelper(){
 
 //Implementation of First Come First Serve Algortihm
 function firstComeFirstServe(){
-    [quant, queue = 2, new Queue()];
+    quant = 2;
+    queue = new Queue();
     queue.enqueue(processes[0]);
     var [i, time] = [1, processes[0].arrivalTime];
     (function traverse() {
@@ -116,7 +117,7 @@ function firstComeFirstServe(){
                 while(i<processes.length && processes[i].arrivalTime<=time)
                     queue.enqueue(processes[i++]);
 
-                front = fcfsHelper(time);
+                front = fcfsHelper();
                 if(front.burstTime == front.consumedTime){
                     wait = 0;
                     queue.dequeue();
