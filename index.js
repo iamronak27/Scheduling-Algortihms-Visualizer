@@ -116,7 +116,7 @@ function firstComeFirstServe(){
                 while(i<processes.length && processes[i].arrivalTime<=time)
                     queue.enqueue(processes[i++]);
 
-                front = fcfsHelper(time);
+                front = fcfsHelper();
                 if(front.burstTime == front.consumedTime){
                     wait = 0;
                     queue.dequeue();
