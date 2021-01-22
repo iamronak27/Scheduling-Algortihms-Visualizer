@@ -40,6 +40,7 @@ class Queue{
 
 //Random Processes generator and Chart Initializer
 function generateProcesses() {
+    document.getElementById("timer").innerHTML = "Current Time - " + 0 + " seconds";
     [min, max] = [15, 20];
     total = Math.floor(Math.random() * (max - min + 1)) + min;
     chart = new CanvasJS.Chart("chartContainer", {
@@ -107,12 +108,14 @@ function firstComeFirstServe(){
     queue = new Queue();
     queue.enqueue(processes[0]);
     var [i, time] = [1, processes[0].arrivalTime];
+    document.getElementById("timer").innerHTML = "Current Time - " + time + " seconds";
     (function traverse() {
         if(!queue.isEmpty()){
             var wait = Math.ceil(1000/quant);
             setTimeout(function() {
                 var front = queue.front();
                 time += Math.min(front.burstTime-front.consumedTime, quant);
+                document.getElementById("timer").innerHTML = "Current Time - " + time + " seconds";
 
                 while(i<processes.length && processes[i].arrivalTime<=time)
                     queue.enqueue(processes[i++]);
@@ -150,10 +153,15 @@ function shortestJobFirst(){
             queue.enqueue(min);
         }
     }
+    time = queue.front().arrivalTime;
+    document.getElementById("timer").innerHTML = "Current Time - " + time + " seconds";
     (function traverse() {
         if(!queue.isEmpty()){
             var wait = Math.ceil(1000/quant);
-            setTimeout(function() {
+            setTimeout(function(){
+                time += Math.min(queue.front().burstTime-queue.front().consumedTime, quant);
+                document.getElementById("timer").innerHTML = "Current Time - " + time + " seconds";
+
                 var front = fcfsHelper();
                 if(front.burstTime == front.consumedTime){
                     wait = 0;
@@ -169,6 +177,7 @@ function shortestJobFirst(){
 function shortestRemainingTimeFirst(){
     var [ctr, time] = [0, 0];
     quant = 1;
+    document.getElementById("timer").innerHTML = "Current Time - " + time + " seconds";
     (function traverse() {
         if(ctr<processes.length){
             var wait = Math.ceil(250/quant);
@@ -191,6 +200,7 @@ function shortestRemainingTimeFirst(){
                         ctr++;
                 }
                 time += quant;
+                document.getElementById("timer").innerHTML = "Current Time - " + time + " seconds";
                 traverse();
             }, wait);
         }
@@ -202,12 +212,14 @@ function roundRobin(){
     [quant, queue] = [2, new Queue()];
     queue.enqueue(processes[0]);
     var [i, time] = [1, processes[0].arrivalTime];
+    document.getElementById("timer").innerHTML = "Current Time - " + time + " seconds";
     (function traverse() {
         if(!queue.isEmpty()){
             var wait = Math.ceil(1000/quant);
             setTimeout(function() {
                 var front = queue.front();
                 time += Math.min(front.burstTime-front.consumedTime, quant);
+                document.getElementById("timer").innerHTML = "Current Time - " + time + " seconds";
 
                 while(i<processes.length && processes[i].arrivalTime<=time)
                     queue.enqueue(processes[i++]);
